@@ -3,6 +3,7 @@ from typing import Callable
 from PIL import Image
 import re
 
+# Указываем типы для последующей типипзации параметров и возвращаемых значений
 Color = tuple[int, int, int]
 Transformation = Callable[[float, float, float], tuple[int, int]]
 
@@ -28,7 +29,9 @@ class CustomImage:
         for i in range(self.width()):
             for j in range(self.height()):
                 self.set(i, j, color)
-
+    """
+    Алгоритм Брезенхема
+    """
     def line(self, x0: int, y0: int, x1: int, y1: int, color: Color):
         if x0 == x1 or y0 == y1:
             return
