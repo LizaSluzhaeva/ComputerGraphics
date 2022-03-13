@@ -1,15 +1,9 @@
 import math
 from typing import Generator, Callable
 
-from main import CustomImage, Color
+from core import CustomImage, Color
 
 LineDrawer = Callable[[int, int, int, int, CustomImage, Color], None]
-
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
 
 
 def float_range(start: float, end: float, step: float, accur: int) -> Generator[float, None, None]:
