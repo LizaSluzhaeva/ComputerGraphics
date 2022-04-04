@@ -159,9 +159,9 @@ def face_normal(f: ObjFace) -> ObjVertex:
     x1, y1, z1 = v1
     x2, y2, z2 = v2
 
-    x = (y1 - y0) * (z1 - z2)
-    y = (x1 - x0) * (z1 - z2) * (-1)
-    z = (x1 - x0) * (y1 - y2)
+    x = (y1 - y0) * (z1 - z2) - (z1 - z0) * (y1 - y2)
+    y = (z1 - z0) * (x1 - x2) - (x1 - x0) * (z1 - z2)
+    z = (x1 - x0) * (y1 - y2) - (y1 - y0) * (x1 - x2)
 
     return x, y, z
 
@@ -174,4 +174,4 @@ def vec_norm(v: ObjVertex) -> float:
 def face_angle_cos(f: ObjFace) -> float:
     v = face_normal(f)
     norm = vec_norm(v)
-    return v[2] / norm
+    return v[2] / norm if norm != 0 else 0
