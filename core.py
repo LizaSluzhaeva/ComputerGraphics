@@ -1,7 +1,7 @@
 import math
 import re
 from sys import float_info
-from typing import Generator
+from typing import Generator, Callable
 
 from PIL import Image
 
@@ -106,6 +106,43 @@ class ObjModel:
     def faces(self) -> Generator[ObjFace, None, None]:
         for v0, v1, v2 in self.__faces:
             yield self.__vertices[v0], self.__vertices[v1], self.__vertices[v2]
+
+    def shift(self, val: tuple[float, float, float]):
+        self.transform(lambda v: (v[0] + val[0], v[1] + val[1], v[2] + val[2]))
+
+    def rotate(self, angle: tuple[float, float, float]):
+        angle_x, angle_y, angle_z = angle
+
+        sin_x = math.sin(angle_x)
+        cos_x = math.cos(angle_x)
+        sin_y = math.sin(angle_y)
+        cos_y = math.cos(angle_y)
+        sin_z = math.sin(angle_z)
+        cos_z = math.cos(angle_z)
+
+        def rotation(v: ObjVertex) -> ObjVertex:
+            x, y, z = v
+
+            new_x = cos_y * cos_z * x \
+                    + cos_y * sin_z * y \
+                    + sin_y * z
+            new_y = -(sin_x * sin_y * cos_z + cos_y * sin_z) * x \
+                    + (-sin_x * sin_y * sin_z + cos_x * cos_z) * y \
+                    + sin_x * cos_y * z
+            new_z = (-cos_x * sin_y * cos_z + sin_x * sin_z) * x \
+                    - (cos_x * sin_y * sin_z + sin_x * cos_y) * y \
+                    + cos_x * cos_z * z
+
+            return new_x, new_y, new_z
+
+        self.transform(rotation)
+
+    def transform(self, transformation: Callable[[ObjVertex], ObjVertex]):
+        new_vertices = []
+        for v in self.vertices():
+            new_vertices.append(transformation(v))
+
+        self.__vertices = new_vertices
 
 
 def barisentrik_coordinates(v: ImageVertex, v0: Obj2DVertex, v1: Obj2DVertex, v2: Obj2DVertex) -> BarisentricVertex:

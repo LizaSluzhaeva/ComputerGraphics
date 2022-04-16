@@ -8,6 +8,7 @@ BLUE = (0, 0, 255)
 
 # Paths
 
+RABBIT = 'data/rabbit.obj'
 DEER = 'data/deer.obj'
 FOX = 'data/fox.obj'
 STORM_TROOPER = 'data/storm_trooper.obj'
