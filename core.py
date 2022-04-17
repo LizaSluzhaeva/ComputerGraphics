@@ -190,15 +190,15 @@ def draw_face(f: Obj2DFace, img: CustomImage, color: Color):
 
 
 def face_normal(f: ObjFace) -> ObjVertex:
-    v0, v1, v2 = f
+    v0, v2, v1 = f
 
     x0, y0, z0 = v0
     x1, y1, z1 = v1
     x2, y2, z2 = v2
 
-    x = (y1 - y0) * (z1 - z2) - (z1 - z0) * (y1 - y2)
-    y = (z1 - z0) * (x1 - x2) - (x1 - x0) * (z1 - z2)
-    z = (x1 - x0) * (y1 - y2) - (y1 - y0) * (x1 - x2)
+    x = (y2 - y0) * (z1 - z0) - (z2 - z0) * (y1 - y0)
+    y = (z2 - z0) * (x1 - x0) - (x2 - x0) * (z1 - z0)
+    z = (x2 - x0) * (y1 - y0) - (y2 - y0) * (x1 - x0)
 
     return x, y, z
 
